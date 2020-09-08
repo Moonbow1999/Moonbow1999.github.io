@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Moonbow1999.github.io</id>
     <title>Moonbow的小站</title>
-    <updated>2020-09-04T14:32:10.823Z</updated>
+    <updated>2020-09-08T14:54:22.618Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Moonbow1999.github.io"/>
     <link rel="self" href="https://Moonbow1999.github.io/atom.xml"/>
@@ -10,6 +10,25 @@
     <logo>https://Moonbow1999.github.io/images/avatar.png</logo>
     <icon>https://Moonbow1999.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Moonbow的小站</rights>
+    <entry>
+        <title type="html"><![CDATA[Win10修复异常关机导致的硬盘写保护]]></title>
+        <id>https://Moonbow1999.github.io/post/win10-xiu-fu-yi-chang-guan-ji-dao-zhi-de-ying-pan-xie-bao-hu/</id>
+        <link href="https://Moonbow1999.github.io/post/win10-xiu-fu-yi-chang-guan-ji-dao-zhi-de-ying-pan-xie-bao-hu/">
+        </link>
+        <updated>2020-09-08T14:42:55.000Z</updated>
+        <content type="html"><![CDATA[<p>右键管理员身份打开CMD<br>
+输入<code>diskpart</code><br>
+<img src="https://Moonbow1999.github.io/post-images/1599576366154.jpg" alt="" loading="lazy"><br>
+接着输入<code>list disk</code><br>
+会显示硬盘序号<br>
+<img src="https://Moonbow1999.github.io/post-images/1599576621719.jpg" alt="" loading="lazy"><br>
+输入被写保护的硬盘序号 命令<code>select disk 序号</code><br>
+<img src="https://Moonbow1999.github.io/post-images/1599576716313.jpg" alt="" loading="lazy"><br>
+清除写保护<code>attributes disk clear readonly</code><br>
+出现这个代表成功<br>
+<img src="https://Moonbow1999.github.io/post-images/1599576799353.jpg" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[从看守所到监狱，这条路有多远]]></title>
         <id>https://Moonbow1999.github.io/post/cong-kan-shou-suo-dao-jian-yu-zhe-tiao-lu-you-duo-yuan/</id>
