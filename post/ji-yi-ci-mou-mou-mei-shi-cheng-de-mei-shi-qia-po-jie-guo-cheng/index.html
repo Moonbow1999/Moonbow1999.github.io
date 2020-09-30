@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Moonbow&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="//cdnjs.loli.net/ajax/libs/mdui/0.4.3/css/mdui.min.css">
+    <link rel="stylesheet" href="/media/css/post.css">
+    <link rel="stylesheet" href="/media/live2d/css/live2d.css" />
+    
+</head>
+<body class=" mdui-appbar-with-toolbar  mdui-theme-primary-pink mdui-theme-accent-pink">
+<header class="mdui-toolbar mdui-color-pink mdui-appbar-fixed mdui-appbar-scroll-toolbar-hide" style="z-index: 1000">
+    <a href="javascript:;" mdui-drawer="{target: '#left-drawer',overlay:true}" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">menu</i></a>
+    <span class="mdui-typo-title">Moonbow&#39;s Blog</span>
+    <div class="mdui-toolbar-spacer"></div>
+<!--    <a href="javascript:history.go(0);" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+    <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">more_vert</i></a>
+</header>
+
+<div class="mdui-drawer mdui-color-white mdui-drawer-full-height mdui-drawer-close" id="left-drawer">
+    <ul class="mdui-list">
+        <li class="mdui-subheader">菜单</li>
+        
+        <li class="mdui-list-item mdui-ripple">
+            <a href="/" class="mdui-list-item-content">首页</a>
+        </li>
+        
+        <li class="mdui-list-item mdui-ripple">
+            <a href="/archives" class="mdui-list-item-content">归档</a>
+        </li>
+        
+        <li class="mdui-list-item mdui-ripple">
+            <a href="/tags" class="mdui-list-item-content">标签</a>
+        </li>
+        
+        <li class="mdui-list-item mdui-ripple">
+            <a href="/post/about" class="mdui-list-item-content">关于</a>
+        </li>
+        
+    </ul>
+</div>
+
+<div id="content" class="site-content">
+    <div id="primary" class="content-area">
+        <main id="main" class="site-main" role="main">
+            <article id="post-1270" class="post-1270 post type-post status-publish format-standard hentry category-90 category-129 tag-149">
+                <header class="entry-header">
+                    <h1 class="entry-title">记一次某某美食城的美食卡破解过程</h1>
+                    <p class="entry-census">发布于 2020-09-30</p>
+                    <hr>
+                </header>
+                <div class="neko">
+                    <p><code>免责声明： 本站所有信息仅供安全学习、研究所用，请勿用于非法用途，否则造成的一切后果自负。</code></p>
+<ul>
+<li>前言：在写字楼下基本都有美食城，然后可以办理美食卡就可以用了，有些是实名的，有些是临时的。这里说的是临时卡，这种卡不实名，不挂失，掉了就没了，除非记得卡号才可能挂失？？这种卡不像校园卡那样数据时服务器存储的，这卡离线就一个词条记录的，只要能破解知道规律，你懂得。破解后才发现这卡连个数据校验都没有。。。</li>
+</ul>
+<p>一、工具准备<br>
+硬件：ARC122U-A9 IC卡读卡器（花了百块大洋）<br>
+软件：IC卡解密软件，IC客栈-M1卡分析助手<br>
+MIFARE Classic Tool (安卓apk) 有NFC功能的手机，主要为了获取卡片信息 破不破解无所谓<br>
+工具下载:https://www.lanzoui.com/iYJm6gv7gni 密码:52pojie</p>
+<p>二、获取卡片的信息<br>
+安装好MIFARE Classic Tool后将卡贴在手机上读卡，获取卡片信息。<br>
+根据卡片信息可以知道该卡是M1卡，知道的都知道，不知道的算了</p>
+<p>三、破解开始<br>
+将卡片放在ARC122U-A9 IC卡读卡器上，用IC卡解密软件开始破解。没想到的是几分钟就破解了，这种卡看的出是半加密的。（这卡也太好破解了）<br>
+<img src="https://Moonbow1999.github.io/post-images/1601467834034.png" alt="" loading="lazy"><br>
+根据上边图片各个扇区发现只有10，11扇区是加密的，（密码已破解）以此确定这两个扇区是我需要的数据<br>
+<img src="https://Moonbow1999.github.io/post-images/1601467858872.png" alt="" loading="lazy"><br>
+没刷卡里边目前金额为：53.40<br>
+<img src="https://Moonbow1999.github.io/post-images/1601467886363.png" alt="" loading="lazy"><br>
+拿去刷了一次后卡里边金额为：44.60<br>
+四、数据分析<br>
+利用IC客栈-M1卡分析助手 分析两次的数据<br>
+<img src="https://Moonbow1999.github.io/post-images/1601467958692.png" alt="" loading="lazy"><br>
+根据对比从中可以发现只有11扇区在变化，说明金额在此了，图片中的 4F -&gt;50  4C-&gt;4D可以想到这是消费次数，用一次加一次<br>
+那么金额就是  14 DC ，11 6C 或者 EB 23， EE 93<br>
+通过进制转换<br>
+<img src="https://Moonbow1999.github.io/post-images/1601468003057.png" alt="" loading="lazy"><br>
+<img src="https://Moonbow1999.github.io/post-images/1601468019031.png" alt="" loading="lazy"><br>
+不难发现：14DC，116C转换十进制后分别为 5340，4460添加小数点后 刚好对应未刷卡和刷卡后的金额，后边的EB 23， EE 93 刚好是按位取反的结果<br>
+由此可以随便修改了，最大为FFFF</p>
+<p>五、后记<br>
+看了论坛那么多大佬破解教程后，我也小试牛刀了，勿喷，<br>
+请勿用于非法用途</p>
+<p><em>转载自吾爱破解论坛 https://www.52pojie.cn/thread-1272995-1-1.html 作者 yqsphp</em></p>
+
+                </div>
+            </article>
+        </main>
+    </div>
+    <div class="doc-footer-nav mdui-color-theme">
+        <div class="mdui-container">
+            <div class="mdui-row">
+                
+                <div class="mdui-col-xs-2 mdui-col-sm-6 doc-footer-nav-left"></div>
+                
+                
+                <a href="https://Moonbow1999.github.io/post/kali-xia-shi-yong-aircrack-ng-po-jie-wu-xian-wifi-mi-ma/" class="mdui-ripple mdui-color-theme mdui-col-xs-10 mdui-col-sm-6 doc-footer-nav-right">
+                    <div class="doc-footer-nav-text">
+                        <i class="mdui-icon material-icons">arrow_forward</i>
+                        <span class="doc-footer-nav-direction">下一篇文章</span>
+                        <div class="doc-footer-nav-chapter">Kali下使用Aircrack-ng破解无线WIFI密码</div>
+                    </div>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+    <br>
+    
+    <div class="comment"></div>
+</div>
+<footer class="mdui-container footer ">
+    <div class="head_card-offset"></div>
+    <div class="mdui-row mdui-row-gapless">
+        <div class="k-container">
+        </div>
+    </div>
+
+    <div class="site-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+</footer>
+<div id="landlord" style="left:5px;bottom:0px;">
+    <div class="message" style="opacity:0"></div>
+    <canvas id="live2d" width="500" height="560" class="live2d"></canvas>
+    <div class="live_talk_input_body">
+        <div class="live_talk_input_name_body">
+            <input name="name" type="text" class="live_talk_name white_input" id="AIuserName" autocomplete="off" placeholder="你的名字" />
+        </div>
+        <div class="live_talk_input_text_body">
+            <input name="talk" type="text" class="live_talk_talk white_input" id="AIuserText" autocomplete="off" placeholder="要和我聊什么呀？"/>
+            <button type="button" class="live_talk_send_btn" id="talk_send">发送</button>
+        </div>
+    </div>
+    <input name="live_talk" id="live_talk" value="1" type="hidden" />
+    <div class="live_ico_box">
+        <div class="live_ico_item type_info" id="showInfoBtn"></div>
+        <div class="live_ico_item type_talk" id="showTalkBtn"></div>
+        <div class="live_ico_item type_music" id="musicButton"></div>
+        <div class="live_ico_item type_youdu" id="youduButton"></div>
+        <div class="live_ico_item type_quit" id="hideButton"></div>
+        <input name="live_statu_val" id="live_statu_val" value="0" type="hidden" />
+        <audio src="" style="display:none;" id="live2d_bgm" data-bgm="0" preload="none"></audio>
+        <input name="live2dBGM" value="https://img.apa70.com/123.mp3" type="hidden">
+        <input name="live2dBGM" value="https://img.apa70.com/123.mp3" type="hidden">
+        <input id="duType" value="douqilai,l2d_caihong" type="hidden">
+    </div>
+</div>
+<div id="open_live2d">召唤伊斯特瓦尔</div>
+<script>
+    var message_Path = '/media/live2d/';//资源目录，如果目录不对请更改
+    var talkAPI = "";//如果有类似图灵机器人的聊天接口请填写接口路径
+</script>
+<!--<script src="/media/js/jquery-3.3.1.min.js"></script>-->
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="/media/live2d/js/live2d.js"></script>
+<script type="text/javascript" src="/media/live2d/js/message.js"></script>
+
+</body>
+<script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.3/js/mdui.min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    $('.comment').bind('DOMNodeInserted',()=>{
+        $('.comment').unbind()
+
+        $('.vbtn').addClass(' mdui-btn mdui-color-theme-accent mdui-ripple')
+    })
+
+    let valine = new Valine({
+        el: '.comment',
+        
+        
+        
+        path: window.location.pathname,
+        pageSize: 30,
+        avatar:'mm',
+        notify:true
+    })
+</script>
+</html>

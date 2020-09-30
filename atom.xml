@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Moonbow1999.github.io</id>
     <title>Moonbow&apos;s Blog</title>
-    <updated>2020-09-29T08:43:20.443Z</updated>
+    <updated>2020-09-30T12:23:45.345Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Moonbow1999.github.io"/>
     <link rel="self" href="https://Moonbow1999.github.io/atom.xml"/>
@@ -10,6 +10,48 @@
     <logo>https://Moonbow1999.github.io/images/avatar.png</logo>
     <icon>https://Moonbow1999.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Moonbow&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[记一次某某美食城的美食卡破解过程]]></title>
+        <id>https://Moonbow1999.github.io/post/ji-yi-ci-mou-mou-mei-shi-cheng-de-mei-shi-qia-po-jie-guo-cheng/</id>
+        <link href="https://Moonbow1999.github.io/post/ji-yi-ci-mou-mou-mei-shi-cheng-de-mei-shi-qia-po-jie-guo-cheng/">
+        </link>
+        <updated>2020-09-30T12:04:40.000Z</updated>
+        <content type="html"><![CDATA[<p><code>免责声明： 本站所有信息仅供安全学习、研究所用，请勿用于非法用途，否则造成的一切后果自负。</code></p>
+<ul>
+<li>前言：在写字楼下基本都有美食城，然后可以办理美食卡就可以用了，有些是实名的，有些是临时的。这里说的是临时卡，这种卡不实名，不挂失，掉了就没了，除非记得卡号才可能挂失？？这种卡不像校园卡那样数据时服务器存储的，这卡离线就一个词条记录的，只要能破解知道规律，你懂得。破解后才发现这卡连个数据校验都没有。。。</li>
+</ul>
+<p>一、工具准备<br>
+硬件：ARC122U-A9 IC卡读卡器（花了百块大洋）<br>
+软件：IC卡解密软件，IC客栈-M1卡分析助手<br>
+MIFARE Classic Tool (安卓apk) 有NFC功能的手机，主要为了获取卡片信息 破不破解无所谓<br>
+工具下载:https://www.lanzoui.com/iYJm6gv7gni 密码:52pojie</p>
+<p>二、获取卡片的信息<br>
+安装好MIFARE Classic Tool后将卡贴在手机上读卡，获取卡片信息。<br>
+根据卡片信息可以知道该卡是M1卡，知道的都知道，不知道的算了</p>
+<p>三、破解开始<br>
+将卡片放在ARC122U-A9 IC卡读卡器上，用IC卡解密软件开始破解。没想到的是几分钟就破解了，这种卡看的出是半加密的。（这卡也太好破解了）<br>
+<img src="https://Moonbow1999.github.io/post-images/1601467834034.png" alt="" loading="lazy"><br>
+根据上边图片各个扇区发现只有10，11扇区是加密的，（密码已破解）以此确定这两个扇区是我需要的数据<br>
+<img src="https://Moonbow1999.github.io/post-images/1601467858872.png" alt="" loading="lazy"><br>
+没刷卡里边目前金额为：53.40<br>
+<img src="https://Moonbow1999.github.io/post-images/1601467886363.png" alt="" loading="lazy"><br>
+拿去刷了一次后卡里边金额为：44.60<br>
+四、数据分析<br>
+利用IC客栈-M1卡分析助手 分析两次的数据<br>
+<img src="https://Moonbow1999.github.io/post-images/1601467958692.png" alt="" loading="lazy"><br>
+根据对比从中可以发现只有11扇区在变化，说明金额在此了，图片中的 4F -&gt;50  4C-&gt;4D可以想到这是消费次数，用一次加一次<br>
+那么金额就是  14 DC ，11 6C 或者 EB 23， EE 93<br>
+通过进制转换<br>
+<img src="https://Moonbow1999.github.io/post-images/1601468003057.png" alt="" loading="lazy"><br>
+<img src="https://Moonbow1999.github.io/post-images/1601468019031.png" alt="" loading="lazy"><br>
+不难发现：14DC，116C转换十进制后分别为 5340，4460添加小数点后 刚好对应未刷卡和刷卡后的金额，后边的EB 23， EE 93 刚好是按位取反的结果<br>
+由此可以随便修改了，最大为FFFF</p>
+<p>五、后记<br>
+看了论坛那么多大佬破解教程后，我也小试牛刀了，勿喷，<br>
+请勿用于非法用途</p>
+<p><em>转载自吾爱破解论坛 https://www.52pojie.cn/thread-1272995-1-1.html 作者 yqsphp</em></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Kali下使用Aircrack-ng破解无线WIFI密码]]></title>
         <id>https://Moonbow1999.github.io/post/kali-xia-shi-yong-aircrack-ng-po-jie-wu-xian-wifi-mi-ma/</id>
